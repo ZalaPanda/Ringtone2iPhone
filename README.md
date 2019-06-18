@@ -23,5 +23,5 @@ TODO
 ----
 Things I plan to fix:
 * Select added items in lists.
-* Get rid of [libimobiledevice](https://github.com/libimobiledevice/libimobiledevice) wrapper.
+* Get rid of [libimobiledevice](https://github.com/libimobiledevice/libimobiledevice) wrapper to reduce size.
 * Some kind of logging?
