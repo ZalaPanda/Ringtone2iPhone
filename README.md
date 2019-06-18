@@ -13,6 +13,8 @@ Download
 --------
 
 Check out the [releases](https://github.com/ZalaPanda/Ringtone2iPhone/releases) section.
+> IMPORTANT!  
+> The program modifies the `Ringtones.plist` file on the phone. The added ringtones are available instantly (no reboot needed) but the compatibility with **iTunes** is not tested yet. Ignore this warning if you don't use iTunes.
 
 HOWTO
 -----
