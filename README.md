@@ -12,7 +12,7 @@ The audio files are stored in the `Audio` folder.
 Download
 --------
 
-Check out the [releases](/ZalaPanda/Ringtone2iPhone/releases) section.
+Check out the [releases](https://github.com/ZalaPanda/Ringtone2iPhone/releases) section.
 
 HOWTO
 -----
