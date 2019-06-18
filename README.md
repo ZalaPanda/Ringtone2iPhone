@@ -9,6 +9,11 @@ The audio files are stored in the `Audio` folder.
 
 ![Audio cut screen](screenshots/cut.png)
 
+Download
+--------
+
+Check out the [releases](/ZalaPanda/Ringtone2iPhone/releases) section.
+
 HOWTO
 -----
 
