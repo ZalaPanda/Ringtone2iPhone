@@ -31,6 +31,16 @@ namespace Ringtone2iPhone
         const string RINGTONESPATH = "/iTunes_Control/Ringtones";
         const string RINGTONESPLIST = "/iTunes_Control/iTunes/Ringtones.plist";
 
+        public iDeviceHandle CurrentDevice {
+            get
+            {
+                var item = cboDevice.SelectedItem as DeviceItem;
+                if (item == null) return null;
+                LibiMobileDevice.Instance.iDevice.idevice_new(out iDeviceHandle device, item.Udid).ThrowOnError();
+                return device;
+            }
+        }
+
         public FrmMain()
         {
             InitializeComponent();
@@ -114,12 +124,14 @@ namespace Ringtone2iPhone
             catch (Exception ex) { HandleException(ex); }
         }
 
-        private void RefreshDevice(string udid)
+        private void RefreshDevice()
         {
             try
             {
                 // connect
-                LibiMobileDevice.Instance.iDevice.idevice_new(out iDeviceHandle device, udid).ThrowOnError();
+                var device = CurrentDevice;
+                lstAudioRemote.Enabled = device != null;
+                if (device == null) return;
                 // start service
                 LibiMobileDevice.Instance.Afc.afc_client_start_service(device, out AfcClientHandle client, PROGRAMNAME).ThrowOnError();
                 LibiMobileDevice.Instance.Afc.afc_get_device_info(client, out ReadOnlyCollection<string> deviceInformation);
@@ -270,9 +282,9 @@ namespace Ringtone2iPhone
             {
                 var folder = new DirectoryInfo(AUDIOFOLDER);
                 var refresh = false;
-                var udid = lstAudioRemote.Tag.ToString();
                 // connect
-                LibiMobileDevice.Instance.iDevice.idevice_new(out iDeviceHandle device, udid).ThrowOnError();
+                var device = CurrentDevice;
+                if (device == null) return false;
                 // start service
                 LibiMobileDevice.Instance.Afc.afc_client_start_service(device, out AfcClientHandle client, PROGRAMNAME).ThrowOnError();
                 foreach (ListViewItem item in items)
@@ -308,10 +320,10 @@ namespace Ringtone2iPhone
         {
             try
             {
-                var udid = lstAudioRemote.Tag.ToString();
                 var refresh = false;
                 // connect
-                LibiMobileDevice.Instance.iDevice.idevice_new(out iDeviceHandle device, udid).ThrowOnError();
+                var device = CurrentDevice;
+                if (device == null) return false;
                 // start service
                 LibiMobileDevice.Instance.Afc.afc_client_start_service(device, out AfcClientHandle client, PROGRAMNAME).ThrowOnError();
                 // download Ringtones.plist
@@ -403,9 +415,9 @@ namespace Ringtone2iPhone
             try
             {
                 var found = false;
-                var udid = lstAudioRemote.Tag.ToString();
                 // connect
-                LibiMobileDevice.Instance.iDevice.idevice_new(out iDeviceHandle device, udid).ThrowOnError();
+                var device = CurrentDevice;
+                if (device == null) return false;
                 // start service
                 LibiMobileDevice.Instance.Afc.afc_client_start_service(device, out AfcClientHandle client, PROGRAMNAME).ThrowOnError();
                 var data = DownloadFile(client, RINGTONESPLIST);
@@ -459,9 +471,9 @@ namespace Ringtone2iPhone
             try
             {
                 var refresh = false;
-                var udid = lstAudioRemote.Tag.ToString();
                 // connect
-                LibiMobileDevice.Instance.iDevice.idevice_new(out iDeviceHandle device, udid).ThrowOnError();
+                var device = CurrentDevice;
+                if (device == null) return false;
                 // start service
                 LibiMobileDevice.Instance.Afc.afc_client_start_service(device, out AfcClientHandle client, PROGRAMNAME).ThrowOnError();
                 var data = DownloadFile(client, RINGTONESPLIST);
@@ -504,8 +516,8 @@ namespace Ringtone2iPhone
             {
                 var item = lstAudioLocal.FocusedItem;
                 btnCut.Enabled = item != null;
-                if (item == null) return;
-                plrAudioLocal.Init(item.Name);
+                if (item == null) plrAudioLocal.Reset();
+                else plrAudioLocal.Init(item.Name);
             }
             catch (Exception ex) { HandleException(ex); }
         }
@@ -628,9 +640,7 @@ namespace Ringtone2iPhone
 
         private void CboDevice_SelectedIndexChanged(object sender, EventArgs e)
         {
-            var item = cboDevice.SelectedItem as DeviceItem;
-            if (item == null) return;
-            RefreshDevice(item.Udid);
+            RefreshDevice();
         }
 
         private void BtnRefreshRemote_Click(object sender, EventArgs e)
@@ -648,6 +658,12 @@ namespace Ringtone2iPhone
             var item = lstAudioLocal.FocusedItem;
             if (item == null) return;
             EditLocalFile(lstAudioLocal.FocusedItem.Name);
+        }
+
+        private void FrmMain_Deactivate(object sender, EventArgs e)
+        {
+            lstAudioLocal.SelectedIndices.Clear();
+            lstAudioRemote.SelectedIndices.Clear();
         }
     }
 }

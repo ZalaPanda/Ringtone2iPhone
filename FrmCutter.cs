@@ -49,8 +49,9 @@ namespace Ringtone2iPhone
 
         public void Reset()
         {
+            if (reader == null) return;
             if (player.PlaybackState != PlaybackState.Stopped) player.Stop();
-            if (reader != null) reader.Close();
+            reader.Close();
             reader = null;
             tmrRefresh.Stop();
         }
@@ -286,6 +287,11 @@ namespace Ringtone2iPhone
             if (!ValidTimeSpan(txtCutStartTime.Text, barEditor.CutStartTime, barEditor.TotalTime, out var value)) return;
             barEditor.CutStopTime = TimeSpan.FromSeconds(value);
             BtnJumpStop_Click(null, null);
+        }
+
+        private void FrmCutter_Deactivate(object sender, EventArgs e)
+        {
+            player.Stop();
         }
 
         //private void FrmCutter_Resize(object sender, EventArgs e)

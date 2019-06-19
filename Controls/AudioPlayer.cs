@@ -27,8 +27,9 @@ namespace Ringtone2iPhone.Controls
 
         public void Reset()
         {
+            if (reader == null) return;
             if (player.PlaybackState != PlaybackState.Stopped) player.Stop();
-            if (reader != null) reader.Close();
+            reader.Close();
             reader = null;
             lblTime.Text = string.Empty;
             tmrRefresh.Stop();
@@ -53,17 +54,20 @@ namespace Ringtone2iPhone.Controls
         private void BtnPlay_Click(object sender, EventArgs e)
         {
             if (reader == null) return;
-            if (player.PlaybackState == PlaybackState.Playing)
+            switch (player.PlaybackState)
             {
-                player.Pause();
-                RefreshPlayButton();
+                case PlaybackState.Stopped:
+                    reader.CurrentTime = TimeSpan.Zero; // rewind
+                    player.Play();
+                    break;
+                case PlaybackState.Playing:
+                    player.Pause();
+                    break;
+                case PlaybackState.Paused:
+                    player.Play();
+                    break;
             }
-            else
-            {
-                if (reader.CurrentTime >= reader.TotalTime) reader.CurrentTime = TimeSpan.Zero; // rewind
-                player.Play();
-                RefreshPlayButton();
-            }
+            RefreshPlayButton();
         }
 
         private void BarPlayer_CurrentTimeChanged(object sender, EventArgs e)

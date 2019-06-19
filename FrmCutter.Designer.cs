@@ -230,10 +230,14 @@ namespace Ringtone2iPhone
             this.Controls.Add(this.barEditor);
             this.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ForeColor = System.Drawing.Color.Black;
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = global::Ringtone2iPhone.Properties.Resources.program;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "FrmCutter";
             this.Text = "Cutter";
             this.TopMost = true;
+            this.Deactivate += new System.EventHandler(this.FrmCutter_Deactivate);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmCutter_FormClosing);
             this.ResumeLayout(false);
             this.PerformLayout();
