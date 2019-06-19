@@ -662,8 +662,7 @@ namespace Ringtone2iPhone
 
         private void FrmMain_Deactivate(object sender, EventArgs e)
         {
-            lstAudioLocal.SelectedIndices.Clear();
-            lstAudioRemote.SelectedIndices.Clear();
+            lstAudioLocal.FocusedItem = null;
         }
     }
 }
