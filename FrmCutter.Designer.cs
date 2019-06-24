@@ -52,7 +52,7 @@ namespace Ringtone2iPhone
             this.btnPlay.BackColor = System.Drawing.SystemColors.Control;
             this.btnPlay.FlatAppearance.BorderSize = 0;
             this.btnPlay.Image = global::Ringtone2iPhone.Properties.Resources.play;
-            this.btnPlay.Location = new System.Drawing.Point(11, 119);
+            this.btnPlay.Location = new System.Drawing.Point(11, 118);
             this.btnPlay.Name = "btnPlay";
             this.btnPlay.Size = new System.Drawing.Size(30, 30);
             this.btnPlay.TabIndex = 1;
@@ -68,7 +68,7 @@ namespace Ringtone2iPhone
             this.rdbFadeIn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.rdbFadeIn.AutoCheck = false;
             this.rdbFadeIn.AutoSize = true;
-            this.rdbFadeIn.Location = new System.Drawing.Point(254, 120);
+            this.rdbFadeIn.Location = new System.Drawing.Point(282, 120);
             this.rdbFadeIn.Name = "rdbFadeIn";
             this.rdbFadeIn.Size = new System.Drawing.Size(77, 25);
             this.rdbFadeIn.TabIndex = 5;
@@ -82,7 +82,7 @@ namespace Ringtone2iPhone
             // 
             this.rdbFadeOut.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.rdbFadeOut.AutoCheck = false;
-            this.rdbFadeOut.Location = new System.Drawing.Point(458, 120);
+            this.rdbFadeOut.Location = new System.Drawing.Point(486, 120);
             this.rdbFadeOut.Name = "rdbFadeOut";
             this.rdbFadeOut.Size = new System.Drawing.Size(87, 25);
             this.rdbFadeOut.TabIndex = 8;
@@ -122,23 +122,25 @@ namespace Ringtone2iPhone
             // txtCutStartTime
             // 
             this.txtCutStartTime.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.txtCutStartTime.Location = new System.Drawing.Point(184, 119);
+            this.txtCutStartTime.Location = new System.Drawing.Point(212, 119);
             this.txtCutStartTime.Name = "txtCutStartTime";
             this.txtCutStartTime.Size = new System.Drawing.Size(64, 29);
             this.txtCutStartTime.TabIndex = 4;
             this.txtCutStartTime.Text = "0.0";
             this.txtCutStartTime.TextChanged += new System.EventHandler(this.TxtCutStartTime_TextChanged);
+            this.txtCutStartTime.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtCutStartTime_KeyDown);
             this.txtCutStartTime.Validated += new System.EventHandler(this.TxtCutStartTime_Validated);
             // 
             // txtCutStopTime
             // 
             this.txtCutStopTime.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.txtCutStopTime.Location = new System.Drawing.Point(388, 119);
+            this.txtCutStopTime.Location = new System.Drawing.Point(416, 119);
             this.txtCutStopTime.Name = "txtCutStopTime";
             this.txtCutStopTime.Size = new System.Drawing.Size(64, 29);
             this.txtCutStopTime.TabIndex = 7;
             this.txtCutStopTime.Text = "0.0";
             this.txtCutStopTime.TextChanged += new System.EventHandler(this.TxtCutStopTime_TextChanged);
+            this.txtCutStopTime.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtCutStopTime_KeyDown);
             this.txtCutStopTime.Validated += new System.EventHandler(this.TxtCutStopTime_Validated);
             // 
             // btnJumpStart
@@ -147,7 +149,7 @@ namespace Ringtone2iPhone
             this.btnJumpStart.BackColor = System.Drawing.SystemColors.Control;
             this.btnJumpStart.FlatAppearance.BorderSize = 0;
             this.btnJumpStart.Image = global::Ringtone2iPhone.Properties.Resources.prev;
-            this.btnJumpStart.Location = new System.Drawing.Point(152, 118);
+            this.btnJumpStart.Location = new System.Drawing.Point(180, 118);
             this.btnJumpStart.Name = "btnJumpStart";
             this.btnJumpStart.Size = new System.Drawing.Size(30, 30);
             this.btnJumpStart.TabIndex = 3;
@@ -160,7 +162,7 @@ namespace Ringtone2iPhone
             this.btnJumpStop.BackColor = System.Drawing.SystemColors.Control;
             this.btnJumpStop.FlatAppearance.BorderSize = 0;
             this.btnJumpStop.Image = global::Ringtone2iPhone.Properties.Resources.next;
-            this.btnJumpStop.Location = new System.Drawing.Point(356, 118);
+            this.btnJumpStop.Location = new System.Drawing.Point(384, 118);
             this.btnJumpStop.Name = "btnJumpStop";
             this.btnJumpStop.Size = new System.Drawing.Size(30, 30);
             this.btnJumpStop.TabIndex = 6;
@@ -184,7 +186,7 @@ namespace Ringtone2iPhone
             this.btnVolumeBoost.BackColor = System.Drawing.SystemColors.Control;
             this.btnVolumeBoost.FlatAppearance.BorderSize = 0;
             this.btnVolumeBoost.Image = global::Ringtone2iPhone.Properties.Resources.volumenormal;
-            this.btnVolumeBoost.Location = new System.Drawing.Point(551, 118);
+            this.btnVolumeBoost.Location = new System.Drawing.Point(109, 118);
             this.btnVolumeBoost.Name = "btnVolumeBoost";
             this.btnVolumeBoost.Size = new System.Drawing.Size(30, 30);
             this.btnVolumeBoost.TabIndex = 11;
@@ -204,6 +206,7 @@ namespace Ringtone2iPhone
             this.barEditor.Location = new System.Drawing.Point(12, 6);
             this.barEditor.Name = "barEditor";
             this.barEditor.SeekPosition = 0;
+            this.barEditor.ShowSeekTime = true;
             this.barEditor.Size = new System.Drawing.Size(658, 103);
             this.barEditor.TabIndex = 0;
             this.barEditor.TotalTime = System.TimeSpan.Parse("00:03:30");

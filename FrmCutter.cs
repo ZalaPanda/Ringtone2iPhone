@@ -279,14 +279,34 @@ namespace Ringtone2iPhone
         {
             if (!ValidTimeSpan(txtCutStartTime.Text, TimeSpan.Zero, barEditor.CutStopTime, out var value)) return;
             barEditor.CutStartTime = TimeSpan.FromSeconds(value);
-            BtnJumpStop_Click(null, null);
+            BtnJumpStart_Click(null, null);
         }
 
         private void TxtCutStopTime_Validated(object sender, EventArgs e)
         {
-            if (!ValidTimeSpan(txtCutStartTime.Text, barEditor.CutStartTime, barEditor.TotalTime, out var value)) return;
+            if (!ValidTimeSpan(txtCutStopTime.Text, barEditor.CutStartTime, barEditor.TotalTime, out var value)) return;
             barEditor.CutStopTime = TimeSpan.FromSeconds(value);
             BtnJumpStop_Click(null, null);
+        }
+
+        private void TxtCutStartTime_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                barEditor.Focus();
+                txtCutStartTime.Focus();
+                e.SuppressKeyPress = true;
+            }
+        }
+
+        private void TxtCutStopTime_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                barEditor.Focus();
+                txtCutStopTime.Focus();
+                e.SuppressKeyPress = true;
+            }
         }
 
         private void FrmCutter_Deactivate(object sender, EventArgs e)

@@ -9,15 +9,18 @@ namespace Ringtone2iPhone.Controls
         private static readonly Pen BarPen = Pens.Gray;
         private static readonly Brush BarBrush = Brushes.Red;
         private static readonly Pen SeekPen = Pens.DarkGray;
+        private static readonly Brush TextBrush = Brushes.Black;
         private static readonly Brush SeekBrush = new SolidBrush(Color.FromArgb(60, Color.Black));
         private static readonly Pen CutNormalPen = new Pen(Color.DimGray, 1);
         private static readonly Pen CutHoverPen = new Pen(Color.DimGray, 5);
         private static readonly Brush CutBrush = new SolidBrush(Color.FromArgb(30, Color.Black));
+        private static readonly StringFormat SeekFormat = new StringFormat { LineAlignment = StringAlignment.Far };
         public event EventHandler CurrentTimeChanged;
         public event EventHandler CutStartChanged;
         public event EventHandler CutStopChanged;
         public int BarHeight { get; set; } = 10;
         public int LineHeight { get; set; } = 16;
+        public bool ShowSeekTime { get; set; } = false;
         public TimeSpan TotalTime
         {
             get => TimeSpan.FromTicks(totalTicks);
@@ -175,6 +178,11 @@ namespace Ringtone2iPhone.Controls
             {
                 e.Graphics.FillRectangle(SeekBrush, barRectangle.X, barRectangle.Y, SeekPosition, barRectangle.Height);
                 e.Graphics.DrawLine(SeekPen, barRectangle.X + SeekPosition, lineTop, barRectangle.X + SeekPosition, lineTop + LineHeight);
+                if (ShowSeekTime)
+                {
+                    var time = TimeSpan.FromTicks(totalTicks * SeekPosition / barRectangle.Width).TotalSeconds.ToString("0.0");
+                    e.Graphics.DrawString(time, Font, TextBrush, barRectangle.X + SeekPosition, barRectangle.Y, SeekFormat);
+                }
             }
             else
             {

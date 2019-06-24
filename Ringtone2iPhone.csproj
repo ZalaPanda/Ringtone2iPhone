@@ -212,5 +212,4 @@
     </PropertyGroup>
     <Error Condition="!Exists('packages\iMobileDevice-net.1.2.77\build\net45\iMobileDevice-net.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\iMobileDevice-net.1.2.77\build\net45\iMobileDevice-net.targets'))" />
   </Target>
-  <Import Project="packages\iMobileDevice-net.1.2.77\build\net45\iMobileDevice-net.targets" Condition="Exists('packages\iMobileDevice-net.1.2.77\build\net45\iMobileDevice-net.targets')" />
 </Project>
