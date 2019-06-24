@@ -29,11 +29,11 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("Ringtone", System.Windows.Forms.HorizontalAlignment.Left);
-            System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("Audio", System.Windows.Forms.HorizontalAlignment.Left);
-            System.Windows.Forms.ListViewGroup listViewGroup3 = new System.Windows.Forms.ListViewGroup("Other", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup5 = new System.Windows.Forms.ListViewGroup("Ringtone", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup6 = new System.Windows.Forms.ListViewGroup("Audio", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup7 = new System.Windows.Forms.ListViewGroup("Other", System.Windows.Forms.HorizontalAlignment.Left);
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmMain));
-            System.Windows.Forms.ListViewGroup listViewGroup4 = new System.Windows.Forms.ListViewGroup("iPhone", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("iPhone", System.Windows.Forms.HorizontalAlignment.Left);
             this.lstAudioLocal = new System.Windows.Forms.ListView();
             this.colAudioLocal = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.imgAudio = new System.Windows.Forms.ImageList(this.components);
@@ -43,6 +43,7 @@
             this.btnRefreshRemote = new System.Windows.Forms.Button();
             this.btnCut = new System.Windows.Forms.Button();
             this.cboDevice = new System.Windows.Forms.ComboBox();
+            this.tmrRemoteRefresh = new System.Windows.Forms.Timer(this.components);
             this.barPhone = new Ringtone2iPhone.Controls.StorageBar();
             this.plrAudioLocal = new Ringtone2iPhone.Controls.AudioPlayer();
             this.SuspendLayout();
@@ -54,16 +55,16 @@
             this.lstAudioLocal.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.colAudioLocal});
             this.lstAudioLocal.GridLines = true;
-            listViewGroup1.Header = "Ringtone";
-            listViewGroup1.Name = null;
-            listViewGroup2.Header = "Audio";
-            listViewGroup2.Name = null;
-            listViewGroup3.Header = "Other";
-            listViewGroup3.Name = null;
+            listViewGroup5.Header = "Ringtone";
+            listViewGroup5.Name = null;
+            listViewGroup6.Header = "Audio";
+            listViewGroup6.Name = null;
+            listViewGroup7.Header = "Other";
+            listViewGroup7.Name = null;
             this.lstAudioLocal.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
-            listViewGroup1,
-            listViewGroup2,
-            listViewGroup3});
+            listViewGroup5,
+            listViewGroup6,
+            listViewGroup7});
             this.lstAudioLocal.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
             this.lstAudioLocal.HideSelection = false;
             this.lstAudioLocal.LabelEdit = true;
@@ -104,10 +105,10 @@
             this.colAudioRemote});
             this.lstAudioRemote.Enabled = false;
             this.lstAudioRemote.GridLines = true;
-            listViewGroup4.Header = "iPhone";
-            listViewGroup4.Name = null;
+            listViewGroup1.Header = "iPhone";
+            listViewGroup1.Name = null;
             this.lstAudioRemote.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
-            listViewGroup4});
+            listViewGroup1});
             this.lstAudioRemote.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
             this.lstAudioRemote.HideSelection = false;
             this.lstAudioRemote.LabelEdit = true;
@@ -176,6 +177,12 @@
             this.cboDevice.TabIndex = 15;
             this.cboDevice.SelectedIndexChanged += new System.EventHandler(this.CboDevice_SelectedIndexChanged);
             // 
+            // tmrRemoteRefresh
+            // 
+            this.tmrRemoteRefresh.Enabled = true;
+            this.tmrRemoteRefresh.Interval = 1000;
+            this.tmrRemoteRefresh.Tick += new System.EventHandler(this.TmrRemoteRefresh_Tick);
+            // 
             // barPhone
             // 
             this.barPhone.FreeBytes = ((long)(0));
@@ -234,5 +241,6 @@
         private System.Windows.Forms.ColumnHeader colAudioRemote;
         private Controls.StorageBar barPhone;
         private System.Windows.Forms.ComboBox cboDevice;
+        private System.Windows.Forms.Timer tmrRemoteRefresh;
     }
 }

@@ -95,9 +95,20 @@ namespace Ringtone2iPhone
             {
                 var count = 0;
                 // get device list
-                LibiMobileDevice.Instance.iDevice.idevice_get_device_list(out ReadOnlyCollection<string> udids, ref count).ThrowOnError();
+                LibiMobileDevice.Instance.iDevice.idevice_get_device_list(out ReadOnlyCollection<string> rudids, ref count).ThrowOnError();
                 cboDevice.BeginUpdate();
-                cboDevice.Items.Clear();
+                var udids = new List<string>(rudids);
+                var remove = new List<DeviceItem>();
+                foreach (DeviceItem item in cboDevice.Items)
+                {
+                    if (udids.Contains(item.Udid)) udids.Remove(item.Udid);
+                    else remove.Add(item);
+                }
+                foreach (DeviceItem item in remove)
+                {
+                    if (cboDevice.SelectedItem == item) cboDevice.SelectedIndex = -1;
+                    cboDevice.Items.Remove(item);
+                }
                 foreach (var udid in udids)
                 {
                     var item = new DeviceItem { Udid = udid };
@@ -118,8 +129,8 @@ namespace Ringtone2iPhone
                     }
                     cboDevice.Items.Add(item);
                 }
+                if (cboDevice.Items.Count > 0 && cboDevice.SelectedItem == null) cboDevice.SelectedIndex = 0;
                 cboDevice.EndUpdate();
-                if (cboDevice.Items.Count > 0) cboDevice.SelectedIndex = 0;
             }
             catch (Exception ex) { HandleException(ex); }
         }
@@ -131,7 +142,12 @@ namespace Ringtone2iPhone
                 // connect
                 var device = CurrentDevice;
                 lstAudioRemote.Enabled = device != null;
-                if (device == null) return;
+                if (device == null)
+                {
+                    barPhone.FreeBytes = 0;
+                    barPhone.TotalBytes = 0;
+                    return;
+                }
                 // start service
                 LibiMobileDevice.Instance.Afc.afc_client_start_service(device, out AfcClientHandle client, PROGRAMNAME).ThrowOnError();
                 LibiMobileDevice.Instance.Afc.afc_get_device_info(client, out ReadOnlyCollection<string> deviceInformation);
@@ -644,6 +660,11 @@ namespace Ringtone2iPhone
         }
 
         private void BtnRefreshRemote_Click(object sender, EventArgs e)
+        {
+            RefreshDevice();
+        }
+
+        private void TmrRemoteRefresh_Tick(object sender, EventArgs e)
         {
             RefreshDevices();
         }
