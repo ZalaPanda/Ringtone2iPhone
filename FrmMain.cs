@@ -31,7 +31,8 @@ namespace Ringtone2iPhone
         const string RINGTONESPATH = "/iTunes_Control/Ringtones";
         const string RINGTONESPLIST = "/iTunes_Control/iTunes/Ringtones.plist";
 
-        public iDeviceHandle CurrentDevice {
+        public iDeviceHandle CurrentDevice
+        {
             get
             {
                 var item = cboDevice.SelectedItem as DeviceItem;
@@ -95,7 +96,7 @@ namespace Ringtone2iPhone
             {
                 var count = 0;
                 // get device list
-                LibiMobileDevice.Instance.iDevice.idevice_get_device_list(out ReadOnlyCollection<string> rudids, ref count).ThrowOnError();
+                LibiMobileDevice.Instance.iDevice.idevice_get_device_list(out ReadOnlyCollection<string> rudids, ref count);
                 cboDevice.BeginUpdate();
                 var udids = new List<string>(rudids);
                 var remove = new List<DeviceItem>();
@@ -132,7 +133,11 @@ namespace Ringtone2iPhone
                 if (cboDevice.Items.Count > 0 && cboDevice.SelectedItem == null) cboDevice.SelectedIndex = 0;
                 cboDevice.EndUpdate();
             }
-            catch (Exception ex) { HandleException(ex); }
+            catch (Exception ex)
+            {
+                HandleException(ex);
+                tmrRemoteRefresh.Enabled = false;
+            }
         }
 
         private void RefreshDevice()
@@ -519,7 +524,7 @@ namespace Ringtone2iPhone
         {
             using (var cutter = new FrmCutter())
             {
-                cutter.Init(lstAudioLocal.FocusedItem.Name);
+                cutter.Init(path);
                 var result = cutter.ShowDialog(this);
                 if (result == DialogResult.OK) RefreshAudios();
             }
@@ -624,7 +629,7 @@ namespace Ringtone2iPhone
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
                 if (!(e.Data.GetData(DataFormats.FileDrop) is string[] files)) return;
-                if (AddRemoteFiles(files)) RefreshDevices();
+                if (AddRemoteFiles(files)) RefreshDevice();
             }
         }
 
@@ -649,7 +654,7 @@ namespace Ringtone2iPhone
                     var result = MessageBox.Show(string.Format("Number of files: {0}", lstAudioRemote.SelectedItems.Count), "Delete files?", MessageBoxButtons.YesNo);
                     if (result != DialogResult.Yes) return;
                 }
-                if (RemoveRemoteFiles(lstAudioRemote.SelectedItems)) RefreshDevices();
+                if (RemoveRemoteFiles(lstAudioRemote.SelectedItems)) RefreshDevice();
             }
         }
         #endregion
@@ -678,12 +683,12 @@ namespace Ringtone2iPhone
         {
             var item = lstAudioLocal.FocusedItem;
             if (item == null) return;
-            EditLocalFile(lstAudioLocal.FocusedItem.Name);
+            EditLocalFile(item.Name);
         }
 
         private void FrmMain_Deactivate(object sender, EventArgs e)
         {
-            lstAudioLocal.FocusedItem = null;
+            lstAudioLocal.SelectedItems.Clear();
         }
     }
 }
