@@ -1,4 +1,4 @@
-Ringtone2iPhone (alpha)
+Ringtone2iPhone (beta)
 =======================
 
 This app is created for my eleven-year-old daughter who loves his iPhone and often nags me to create and/or upload ringtones to her phone.
