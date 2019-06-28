@@ -212,4 +212,13 @@
     </PropertyGroup>
     <Error Condition="!Exists('packages\iMobileDevice-net.1.2.77\build\net45\iMobileDevice-net.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\iMobileDevice-net.1.2.77\build\net45\iMobileDevice-net.targets'))" />
   </Target>
+  <PropertyGroup>
+    <PostBuildEvent>if $(ConfigurationName) == Release if exist "$(SolutionDir)publish\" (
+  if $(PlatformName) == x64 (
+    xcopy "$(TargetPath)" "$(SolutionDir)publish\Ringtone2iPhone64.exe*" /y
+  ) else (
+    xcopy "$(TargetPath)" "$(SolutionDir)publish\Ringtone2iPhone.exe*" /y
+  )
+)</PostBuildEvent>
+  </PropertyGroup>
 </Project>

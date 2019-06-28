@@ -4,7 +4,7 @@ using System.Windows.Forms;
 
 namespace Ringtone2iPhone.Controls
 {
-    class AudioBar : Control
+    public class AudioBar : Control
     {
         private static readonly Pen BarPen = Pens.Gray;
         private static readonly Brush BarBrush = Brushes.Red;
