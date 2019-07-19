@@ -40,6 +40,10 @@ This is because I don't own a [code signing certificate](https://comodosslstore.
 * Make a suggestion:  
     If you have a good idea to *fix* this problem, contact me.
 
+> Added ringtone is not shown in the Settings.
+
+Close the Settings and start it again.
+
 TODO
 ----
 Things I plan to fix:

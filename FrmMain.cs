@@ -159,8 +159,32 @@ namespace Ringtone2iPhone
                 // refresh bar
                 barPhone.FreeBytes = GetFreeBytes(deviceInformation);
                 barPhone.TotalBytes = GetTotalBytes(deviceInformation);
+                // check Ringtones.plist
+                var size = 0U;
+                try
+                {
+                    size = GetFileSize(FileInfo(client, RINGTONESPLIST));
+                }
+                catch(AfcException)
+                {
+                    var empty = new NSDictionary() { { "Ringtones", new NSDictionary() } };
+                    // upload empty Ringtones.plist
+                    var stream = new MemoryStream();
+                    PropertyListParser.SaveAsBinary(empty, stream);
+                    UploadFile(client, RINGTONESPLIST, stream.ToArray());
+                    size = GetFileSize(FileInfo(client, RINGTONESPLIST));
+                }
+                // chech Ringtones directory
+                try
+                {
+                    DirectoryInfo(client, RINGTONESPATH);
+                }
+                catch (AfcException)
+                {
+                    CreateDirectory(client, RINGTONESPATH);
+                }
                 // download Ringtones.plist
-                var data = DownloadFile(client, RINGTONESPLIST);
+                var data = DownloadFile(client, RINGTONESPLIST, size);
                 // disconnect
                 client.Close();
                 client.Dispose();
@@ -168,6 +192,7 @@ namespace Ringtone2iPhone
                 device.Dispose();
 
                 var plist = PropertyListParser.Parse(data);
+
                 lstAudioRemote.BeginUpdate();
                 lstAudioRemote.Items.Clear();
                 foreach (var entry in (NSDictionary)((NSDictionary)plist)["Ringtones"])
@@ -183,6 +208,11 @@ namespace Ringtone2iPhone
         #endregion
 
         #region iPhone
+        static void CreateDirectory(AfcClientHandle client, string directoryname)
+        {
+            LibiMobileDevice.Instance.Afc.afc_make_directory(client, directoryname).ThrowOnError();
+        }
+
         static void UploadFile(AfcClientHandle client, string filename, byte[] data)
         {
             var handle = 0UL;
@@ -215,6 +245,12 @@ namespace Ringtone2iPhone
         static void DeleteFile(AfcClientHandle client, string path)
         {
             LibiMobileDevice.Instance.Afc.afc_remove_path(client, path);
+        }
+
+        static ReadOnlyCollection<string> DirectoryInfo(AfcClientHandle client, string directoryname)
+        {
+            LibiMobileDevice.Instance.Afc.afc_read_directory(client, directoryname, out ReadOnlyCollection<string> directoryInformation).ThrowOnError();
+            return directoryInformation;
         }
 
         static ReadOnlyCollection<string> FileInfo(AfcClientHandle client, string filename)
